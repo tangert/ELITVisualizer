@@ -1,0 +1,43 @@
+.sentiment-filter-container {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+}
+
+.sentiment-btns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sentiment-btns * {
+  transition: 0.15s ease-in;
+}
+
+.control-panel-btn.sent-pos, .control-panel-btn.sent-neg {
+  border-radius: 2.5px;
+}
+
+.control-panel-btn.sent-both {
+  border-radius: 50%;
+}
+
+/****HOVER****/
+.control-panel-btn.sent-pos:hover {
+  background-color: lightblue;
+  color: white;
+  border-color: transparent;
+}
+
+.control-panel-btn.sent-neg:hover {
+  background-color: red;
+  color: white;
+  border-color: transparent;
+}
+
+.control-panel-btn.sent-both:hover {
+  background-color: darkgrey;
+  color: white;
+  border-color: transparent;
+}

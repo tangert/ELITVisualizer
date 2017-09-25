@@ -1,0 +1,10 @@
+.visualization-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-color: rgba(0,0,0,0.1);
+  height: 500px;
+  width: 100%;
+
+  flex: 3;
+}

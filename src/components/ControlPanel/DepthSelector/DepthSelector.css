@@ -1,0 +1,29 @@
+.depth-selector-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px;
+}
+
+.depth-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.depth-btns * {
+  margin: 0px 5px 0px 5px;
+}
+
+.control-panel-btn.nodepth-active {
+  background-color: lightblue;
+  color: white;
+}
+
+.control-panel-btn.depth-active {
+  background-color: lightblue;
+  color: white;
+  -webkit-box-shadow: 0px 6px 40px -2px rgba(0,0,0,0.4);
+  -moz-box-shadow: 0px 6px 40px -2px rgba(0,0,0,0.4);
+  box-shadow: 0px 6px 40px -2px rgba(0,0,0,0.4);
+}

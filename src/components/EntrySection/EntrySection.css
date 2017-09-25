@@ -1,0 +1,113 @@
+.entry-section-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  margin-top: 50px;
+
+  flex: 1.5;
+  min-height: 200px;
+}
+
+.entry-section-container * {
+  transition: all 0.2s ease-in;
+  font-family: "Maven Pro";
+}
+
+/****ENTRY****/
+
+.entry-textarea {
+  height: 125px;
+  width: 75%;
+  border-radius: 10px;
+  padding: 10px;
+  resize: none;
+
+  font-size: 1.2em;
+
+  color: rgba(0,0,0,0.25);
+  /*border-color: rgba(0,0,0,0.25);*/
+  border-width: 1px;
+  border-style: solid;
+  border: none;
+  text-align: center;
+}
+
+.entry-textarea:focus{
+  color: rgba(0,0,0,0.5);
+  outline:0;
+  border-color: white;
+  -webkit-box-shadow: 0px 6px 40px -2px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 6px 40px -2px rgba(0,0,0,0.3);
+  box-shadow: 0px 6px 40px -2px rgba(0,0,0,0.3);
+}
+
+/****PLACEHOLDER****/
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color: lightgrey;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: lightgrey;
+
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: lightgrey;
+
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: lightgrey;
+
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: lightgrey;
+}
+
+/****ANALYZE BUTTON****/
+
+.analyze-text-btn {
+  min-height: 40px;
+  width: 25%;
+  max-width: 250px;
+  min-width: 150px;
+  border-radius: 30px;
+  border-style: solid;
+  border-width: 2px;
+  border-color: lightblue;
+
+  /*margin*/
+  margin-top: 25px;
+  margin-bottom: 25px;
+
+  background-color: transparent;
+  color: lightblue;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.analyze-text-btn:hover {
+  color: white;
+  background-color: lightblue;
+  border-color: lightblue;
+  transform: scale(1.1);
+  -webkit-box-shadow: 0px 6px 40px -2px rgba(0,0,0,0.25);
+  -moz-box-shadow: 0px 6px 40px -2px rgba(0,0,0,0.25);
+  box-shadow: 0px 6px 40px -2px rgba(0,0,0,0.25);
+
+
+}
+.analyze-text-btn:focus{
+  outline: none;
+}
+
+.analyze-text-btn:active {
+  transform: scale(1.05);
+}
+
+/****SEPARATOR****/
+.separator {
+  height: 1px;
+  width: 90%;
+  background-color: lightgrey;
+}
