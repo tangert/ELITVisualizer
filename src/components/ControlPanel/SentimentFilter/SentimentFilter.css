@@ -24,20 +24,30 @@
 }
 
 /****HOVER****/
-.control-panel-btn.sent-pos:hover {
-  background-color: lightblue;
+.control-panel-btn.sent-pos-active {
+  background-color: rgb(158,222,242);
   color: white;
   border-color: transparent;
 }
 
-.control-panel-btn.sent-neg:hover {
-  background-color: red;
+.control-panel-btn.sent-neg-active {
+  background-color: rgb(212,75,60);
+;
   color: white;
   border-color: transparent;
 }
 
-.control-panel-btn.sent-both:hover {
-  background-color: darkgrey;
+.control-panel-btn.sent-both-active {
+  background-color: rgba(112,112,112,1);
   color: white;
   border-color: transparent;
+}
+
+.control-panel-btn.sent-both-active.pos {
+  color: rgb(158,222,242);
+}
+
+.control-panel-btn.sent-both-active.neg  {
+  color: #FFA2A2;
+;
 }

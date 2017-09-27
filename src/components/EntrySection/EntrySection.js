@@ -25,13 +25,13 @@ class EntrySection extends Component {
   render () {
     return(
       <div className = "entry-section-container">
-        <textarea
-          value = {this.props.currentText}
-          onChange = {this.editText}
-          className = "entry-textarea"
-          placeholder = "Enter any text here to analyze its sentiment.">
-        </textarea>
-        <button onClick = {this.analyzeText} className = "analyze-text-btn">Analyze</button>
+          <textarea
+            value = {this.props.currentText}
+            onChange = {this.editText}
+            className = "entry-textarea"
+            placeholder = "Enter any text here to analyze its sentiment.">
+          </textarea>
+          <button onClick = {this.analyzeText} className = "analyze-text-btn">Analyze</button>
         <div className = "separator"></div>
       </div>
     );
@@ -47,7 +47,9 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state){
   return {
     analyzedText: state.EntrySection.analyzedText,
-    currentText: state.EntrySection.currentText
+    currentText: state.EntrySection.currentText,
+    currentNgram: state.ControlPanel.currentNgram,
+    phraseData: state.EntrySection.phrase
   };
 }
 

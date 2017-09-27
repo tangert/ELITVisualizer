@@ -20,13 +20,12 @@ export function analyzeText(data){
 /********************************/
 
 /****CONTROL PANEL FUNCTIONS****/
-export function selectNgram(data) {
+export function selectVisualFocus(data) {
   return {
-    type: types.SELECT_NGRAM,
+    type: types.SELECT_VISUAL_FOCUS,
     payload: data
   }
 }
-
 export function selectNgramPosition(data) {
   return {
     type: types.SELECT_NGRAM_POSITION,
@@ -55,9 +54,10 @@ export function selectDepth(data) {
   }
 }
 
-export function calculateCurrentTokenData() {
+export function calculateCurrentTokenData(data) {
   return {
-    type: types.CALC_CURRENT_TOKEN_DATA
+    type: types.CALC_CURRENT_TOKEN_DATA,
+    payload: data
   }
 }
 

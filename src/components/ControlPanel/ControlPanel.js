@@ -12,19 +12,26 @@ import { connect } from 'react-redux';
 
 class ControlPanel extends Component {
 
-  selectNgram = (data) => {
-    this.props.actions.selectNgram(data);
-    this.props.actions.calculateCurrentTokenData();
+  /****FUNCTION DOCUMENTATION****/
+  /******************************/
+  /*
+  These functions essentially ONLY directly manipulate the SETTINGS on the state.
+  Once all of the settings are adjusted properly, we call calculateCurrentTokenData
+  in order to take the adjusted settings and pass in the current text as a parameter.
+  */
+  /******************************/
+  /******************************/
+
+  selectVisualFocus = (focus) => {
+    this.props.actions.selectVisualFocus(focus);
   }
 
   selectNgramPostion = (data) => {
     this.props.actions.selectNgramPosition(data);
-    this.props.actions.calculateCurrentTokenData();
   }
 
   filterSentiment = (data) => {
     this.props.actions.filterSentiment(data);
-    this.props.actions.calculateCurrentTokenData();
   }
 
   filterJSON = (data) => {
@@ -39,23 +46,33 @@ class ControlPanel extends Component {
     return(
       <div className = "control-panel-container">
 
-        <NgramSelector
-          selectNgram = {this.selectNgram}
-          selectNgramPostion = {this.selectNgramPostion}
+        <div className = "control-panel-top">
+          <div className = "control-panel-top-title">Visual focus</div>
+          <div>
+            <button onClick = {() => this.selectVisualFocus("WORDS")} className = {this.props.visualFocus === "WORDS" ? "visual-focus-btn active": "visual-focus-btn"}>Words</button>
+            <button onClick = {() => this.selectVisualFocus("SENTENCES")} className = {this.props.visualFocus === "SENTENCES" ? "visual-focus-btn active": "visual-focus-btn"}>Sentences</button>
+          </div>
+        </div>
 
-          currentNgram = {this.props.currentNgram}
-          currentNgramPosition = {this.props.currentNgramPosition}
-          />
+        <div className = "control-panel-separator"></div>
+        <div className = "control-panel-bottom">
+          <NgramSelector
+            selectNgramPostion = {this.selectNgramPostion}
 
-        <SentimentFilter filterSentiment = {this.filterSentiment} />
+            currentNgram = {this.props.currentNgram}
+            currentNgramPosition = {this.props.currentNgramPosition}
+            />
 
-        <JSONFilter filterJSON = {this.filterJSON} />
+          <SentimentFilter filterSentiment = {this.filterSentiment}
+            sentimentFilters = {this.props.sentimentFilters}/>
 
-        <DepthSelector
-          selectDepth = {this.selectDepth}
-          depthOn = {this.props.depthOn}
-          />
+          <JSONFilter filterJSON = {this.filterJSON} />
 
+          <DepthSelector
+            selectDepth = {this.selectDepth}
+            depthOn = {this.props.depthOn}
+            />
+        </div>
       </div>
     );
   }
@@ -69,15 +86,14 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state){
   return {
-    currentNgram: state.ControlPanel.currentNgram,
     currentNgramPosition: state.ControlPanel.currentNgramPosition,
     sentimentFilters: state.ControlPanel.sentimentFilters,
     depthOn: state.ControlPanel.depthOn,
     jsonOn: state.ControlPanel.jsonOn,
+    visualFocus: state.ControlPanel.visualFocus,
 
-    calculatedString: state.ControlPanel.calculatedString,
-    calculatedTokens: state.ControlPanel.calculatedTokens,
-    calculatedNgrams: state.ControlPanel.calculatedNgrams
+    currentText: state.EntrySection.currentText,
+    phraseData: state.EntrySection.phrase
   };
 }
 
