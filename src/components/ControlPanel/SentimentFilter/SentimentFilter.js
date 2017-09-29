@@ -66,7 +66,7 @@ class SentimentFilter extends Component {
         <div className = "control-panel-title">Sentiment Filter</div>
         <div className = "sentiment-btns">
           <button onClick = {()=> this.filterSentiment({pos: true, neg: false})} className = {this.renderClassName(this.props.sentimentFilters, 1)}>Positive</button>
-          <button onClick = {()=> this.filterSentiment({pos: true, neg: true})} className = {this.renderClassName(this.props.sentimentFilters, 2)}>&</button>
+          <button onClick = {()=> this.filterSentiment({pos: true, neg: true})} className = {this.renderClassName(this.props.sentimentFilters, 2)}>AND</button>
           <button onClick = {()=> this.filterSentiment({pos: false, neg: true})} className = {this.renderClassName(this.props.sentimentFilters, 3)}>Negative</button>
         </div>
       </div>

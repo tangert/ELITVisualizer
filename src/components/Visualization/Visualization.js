@@ -10,21 +10,6 @@ import { connect } from 'react-redux';
 
 class Visualization extends Component {
 
-  hashCode = (string) => {
-    if(string === undefined) {
-      return undefined;
-    }
-
-    var hash = 0, i, chr;
-    if (string.length === 0) return hash;
-    for (i = 0; i < string.length; i++) {
-      chr   = string.charCodeAt(i);
-      hash  = ((hash << 5) - hash) + chr;
-      hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
-  };
-
   mapPosToWeights = (pos, sentence) => {
     switch(pos){
       case 1:
@@ -56,21 +41,19 @@ class Visualization extends Component {
       let sentence = data[i];
       let weights = this.mapPosToWeights(this.props.ngramPos, sentence);
 
-      var negatives_abs = weights.filter(weight => weight < 0).map((weight) => {
-        return Math.abs(weight);
-      });
-      var positives = weights.filter(weight => weight > 0);
+      let negatives_abs = weights.filter(w => w < 0).map( w => { return Math.abs(w); });
+      let positives = weights.filter(w => w > 0);
 
-      var neg_abs_max = Math.max(...negatives_abs);
-      var pos_max = Math.max(...positives);
+      let neg_abs_max = Math.max(...negatives_abs);
+      let pos_max = Math.max(...positives);
 
       for(var j = 0; j < weights.length; j++) {
 
         let weight;
         let ratio;
         let visible;
-
         let filters = this.props.sentimentFilters;
+
         let BOTH_PRESSED = filters.pos && filters.neg;
         let POS_PRESSED = filters.pos && !filters.neg;
         let NEG_PRESSED = !filters.pos && filters.neg;
@@ -82,6 +65,7 @@ class Visualization extends Component {
         }
 
         if (weight < 0) {
+
           ratio = Math.abs(weight)/neg_abs_max;
 
           if(BOTH_PRESSED || NEG_PRESSED) {
@@ -89,8 +73,8 @@ class Visualization extends Component {
           } else {
             visible = false;
           }
-
         } else {
+
           ratio = weight/pos_max;
 
           if(BOTH_PRESSED || POS_PRESSED) {
@@ -98,7 +82,6 @@ class Visualization extends Component {
           } else {
             visible = false;
           }
-
         }
 
         Ngrams.push(
@@ -110,8 +93,7 @@ class Visualization extends Component {
             transform = {this.props.transform}
             ratio = {ratio}
             visible = {visible}
-            >
-          </Ngram>
+            />
         );
       }
     }
@@ -123,7 +105,7 @@ class Visualization extends Component {
       <div
         onMouseMove={this.handleMove}
         className = "visualization-container"
-        ref="root">
+      >
         { this.renderNgrams(this.props.phrase) }
       </div>
     );
