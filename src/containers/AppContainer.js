@@ -65,6 +65,8 @@ class AppContainer extends Component {
   }
 
   render() {
+
+    //<Visualization transform = {this.state.depthTransform}/>
     return (
       <div
         className="app-container"
@@ -73,7 +75,7 @@ class AppContainer extends Component {
         <Header/>
         <EntrySection/>
         <ControlPanel/>
-        <Visualization transform = {this.state.depthTransform}/>
+        <Visualization/>
     </div>
     );
   }

@@ -47,16 +47,17 @@ export function filterJSON(data) {
   }
 }
 
-export function selectDepth(data) {
+
+export function filterSentences(data) {
   return {
-    type: types.SELECT_DEPTH,
+    type: types.FILTER_SENTENCES,
     payload: data
   }
 }
 
-export function calculateCurrentTokenData(data) {
+export function selectDocument(data) {
   return {
-    type: types.CALC_CURRENT_TOKEN_DATA,
+    type: types.SELECT_DOCUMENT,
     payload: data
   }
 }

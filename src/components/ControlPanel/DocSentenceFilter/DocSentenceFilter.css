@@ -1,0 +1,33 @@
+.doc-traversal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0,0,0,0.25);
+
+}
+
+.current-document {
+  background-color: rgba(0,0,0,0.1);
+  color: white;
+  padding: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 5px;
+}
+
+.doc-traversal-arrow {
+  color: lightgrey;
+  transition: 0.1s ease-in;
+  margin-left: 20px;
+  margin-right: 20px;
+  height: 2em;
+  width: 2em;
+}
+.doc-traversal-arrow:hover {
+  color: grey;
+  transform: scale(1.1);
+}
+
+.doc-traversal-arrow:active {
+  transform: scale(1.0);
+}

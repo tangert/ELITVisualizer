@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Ngram from './Ngram/Ngram'
+import JSONTree from 'react-json-tree'
 import './Visualization.css'
 
 //Redux
@@ -13,86 +14,97 @@ class Visualization extends Component {
   mapPosToWeights = (pos, sentence) => {
     switch(pos){
       case 1:
-        return sentence.ngram1;
+        return sentence.sentiment_attention_1;
         break;
       case 2:
-        return sentence.ngram2;
+        return sentence.sentiment_attention_2;
         break;
       case 3:
-        return sentence.ngram3;
+        return sentence.sentiment_attention_3;
         break;
       case 4:
-        return sentence.ngram4;
+        return sentence.sentiment_attention_4;
         break;
       case 5:
-        return sentence.ngram5;
+        return sentence.sentiment_attention_5;
         break;
       default:
-        return sentence.ngram1;
+        return sentence.sentiment_attention_1;
     }
   }
 
-  renderNgrams = (data) => {
-    console.log("render");
+  renderNgrams = (phrase) => {
+    console.log("Rendering ngrams");
+
     let Ngrams = [];
+    let visibleSentences = this.props.visibleSentences;
 
-    for(var i = 0; i < data.length; i++) {
+    let start = 0
+    let end = phrase.length;
 
-      let sentence = data[i];
+    if(visibleSentences.length > 0) {
+      start = visibleSentences[0];
+      end = visibleSentences[1] + 1;
+    }
+
+    for(let sentenceIndex = start; sentenceIndex < end; sentenceIndex++) {
+
+      let sentence = phrase[sentenceIndex];
+      console.log(sentence);
+
       let weights = this.mapPosToWeights(this.props.ngramPos, sentence);
+      console.log(weights);
+      let isVisible;
+      let filters = this.props.sentimentFilters;
 
-      let negatives_abs = weights.filter(w => w < 0).map( w => { return Math.abs(w); });
-      let positives = weights.filter(w => w > 0);
+      //Predominant sentiment in the sentence for filtering purposes.
+      let maxSent = Math.max(...sentence.sentiment);
 
-      let neg_abs_max = Math.max(...negatives_abs);
-      let pos_max = Math.max(...positives);
+      let negScore = sentence.sentiment[0];
+      let neutScore = sentence.sentiment[1];
+      let posScore = sentence.sentiment[2];
 
-      for(var j = 0; j < weights.length; j++) {
+      let POSITIVE_PRESSED = filters.positive;
+      let NEGATIVE_PRESSED = filters.negative;
+      let NEUTRAL_PRESSED = filters.neutral;
 
-        let weight;
-        let ratio;
-        let visible;
-        let filters = this.props.sentimentFilters;
+      for(let tokenIndex = 0; tokenIndex < weights.length; tokenIndex++) {
 
-        let BOTH_PRESSED = filters.pos && filters.neg;
-        let POS_PRESSED = filters.pos && !filters.neg;
-        let NEG_PRESSED = !filters.pos && filters.neg;
-
-        if(this.props.visualFocus === "WORDS") {
-          weight = weights[j].toFixed(2);
+        if(maxSent  === negScore) {
+          if(NEGATIVE_PRESSED) {
+            isVisible = true;
+          } else {
+            isVisible = false;
+          }
+        } else if (maxSent === neutScore) {
+          if(NEUTRAL_PRESSED) {
+            isVisible = true;
+          } else {
+            isVisible = false;
+          }
         } else {
-          weight = sentence.weight.toFixed(2);
+          if(POSITIVE_PRESSED) {
+            isVisible = true;
+          } else {
+            isVisible = false;
+          }
         }
 
-        if (weight < 0) {
-
-          ratio = Math.abs(weight)/neg_abs_max;
-
-          if(BOTH_PRESSED || NEG_PRESSED) {
-            visible = true;
-          } else {
-            visible = false;
-          }
-        } else {
-
-          ratio = weight/pos_max;
-
-          if(BOTH_PRESSED || POS_PRESSED) {
-            visible = true;
-          } else {
-            visible = false;
-          }
+        //Default
+        if(!POSITIVE_PRESSED && !NEUTRAL_PRESSED && !NEGATIVE_PRESSED) {
+          isVisible = true;
         }
 
         Ngrams.push(
           <Ngram
-            token = {sentence.tokens[j]}
-            key = {sentence.tokens[j] + i + j}
-            weight = {weight}
-            depthOn = {this.props.depthOn}
-            transform = {this.props.transform}
-            ratio = {ratio}
-            visible = {visible}
+            token = {sentence.tokens[tokenIndex]}
+            key = {sentence.tokens[tokenIndex] + sentenceIndex + tokenIndex}
+
+            sentenceSentiment = {sentence.sentiment}
+            weight = {weights[tokenIndex]}
+
+            visualFocus = {this.props.visualFocus}
+            visible = {isVisible}
             />
         );
       }
@@ -101,12 +113,70 @@ class Visualization extends Component {
   }
 
   render () {
+
+    let maxNodeHeight;
+    let sentenceCount;
+
+    //JSON theme
+    const theme = {
+      scheme: 'monokai',
+      author: 'wimer hazenberg (http://www.monokai.nl)',
+      base00: '#272822',
+      base01: '#383830',
+      base02: '#49483e',
+      base03: '#75715e',
+      base04: '#a59f85',
+      base05: '#f8f8f2',
+      base06: '#f5f4f1',
+      base07: '#f9f8f5',
+      base08: '#f92672',
+      base09: '#fd971f',
+      base0A: '#f4bf75',
+      base0B: '#a6e22e',
+      base0C: '#a1efe4',
+      base0D: '#66d9ef',
+      base0E: '#ae81ff',
+      base0F: '#cc6633'
+    };
+
+    //This is to help out the minheiht of the container.
+    if(this.props.phrase.length > 0) {
+      maxNodeHeight = Math.max(...this.props.phrase.map((sentence) => {
+        return sentence.tokens.length;
+      }));
+
+      if(this.props.visibleSentences.length > 0) {
+        sentenceCount = this.props.visibleSentences[1] - this.props.visibleSentences[0];
+        console.log("visible sentence lenght: ", sentenceCount);
+      } else {
+        sentenceCount = this.props.phrase.length;
+        console.log("phrase sentence lenght: ", sentenceCount);
+      }
+    } else {
+      maxNodeHeight = 100;
+      sentenceCount = 5;
+    }
+
+    let jsonContainer;
+    if(this.props.jsonOn) {
+      jsonContainer = (
+        <div className = "json-container" style = {{flex: 1}}>
+          <JSONTree data = {this.props.phrase}  theme = {theme} invertTheme/>
+        </div>
+      )
+    }
+
     return(
       <div
-        onMouseMove={this.handleMove}
         className = "visualization-container"
-      >
-        { this.renderNgrams(this.props.phrase) }
+        style = {this.props.visualFocus.scale ? {minHeight: maxNodeHeight * sentenceCount * 5} : {}}>
+
+        <div className = "ngrams-container">
+          { this.renderNgrams(this.props.phrase) }
+        </div>
+
+        {jsonContainer}
+
       </div>
     );
   }
@@ -121,11 +191,11 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state){
   return {
     sentimentFilters: state.ControlPanel.sentimentFilters,
-    depthOn: state.ControlPanel.depthOn,
     jsonOn: state.ControlPanel.jsonOn,
     ngramPos: state.ControlPanel.currentNgramPosition,
     visualFocus: state.ControlPanel.visualFocus,
-    phrase: state.EntrySection.phrase
+    phrase: state.EntrySection.phrase,
+    visibleSentences: state.ControlPanel.visibleSentences
   };
 }
 

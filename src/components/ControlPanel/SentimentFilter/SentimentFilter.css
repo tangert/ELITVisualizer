@@ -13,41 +13,24 @@
 
 .sentiment-btns * {
   transition: 0.15s ease-in;
-}
-
-.control-panel-btn.sent-pos, .control-panel-btn.sent-neg {
   border-radius: 2.5px;
+
 }
 
-.control-panel-btn.sent-both {
-  border-radius: 2.5px;
-}
-
-/****HOVER****/
-.control-panel-btn.sent-pos-active {
+.control-panel-btn.sent-pos {
   background-color: rgb(158,222,242);
   color: white;
   border-color: transparent;
 }
 
-.control-panel-btn.sent-neg-active {
+.control-panel-btn.sent-neg {
   background-color: rgb(212,75,60);
-;
   color: white;
   border-color: transparent;
 }
 
-.control-panel-btn.sent-both-active {
-  background-color: rgba(112,112,112,1);
+.control-panel-btn.sent-neut {
+  background-color: rgb(102, 255, 153);
   color: white;
   border-color: transparent;
-}
-
-.control-panel-btn.sent-both-active.pos {
-  color: rgb(158,222,242);
-}
-
-.control-panel-btn.sent-both-active.neg  {
-  color: #FFA2A2;
-;
 }

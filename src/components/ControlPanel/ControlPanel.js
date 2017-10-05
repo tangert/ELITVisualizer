@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import NgramSelector from './NgramSelector/NgramSelector'
 import SentimentFilter from './SentimentFilter/SentimentFilter'
 import JSONFilter from './JSONFilter/JSONFilter'
-import DepthSelector from './DepthSelector/DepthSelector'
+import VisualFocusSelector from './VisualFocusSelector/VisualFocusSelector'
+import DocSentenceFilter from './DocSentenceFilter/DocSentenceFilter'
+import { MdChevronRight, MdChevronLeft } from 'react-icons/lib/md'
 import './ControlPanel.css'
 
 //Redux
@@ -22,10 +24,6 @@ class ControlPanel extends Component {
   /******************************/
   /******************************/
 
-  selectVisualFocus = (focus) => {
-    this.props.actions.selectVisualFocus(focus);
-  }
-
   selectNgramPostion = (data) => {
     this.props.actions.selectNgramPosition(data);
   }
@@ -38,8 +36,16 @@ class ControlPanel extends Component {
     this.props.actions.filterJSON(data);
   }
 
-  selectDepth = (data) => {
-    this.props.actions.selectDepth(data);
+  selectVisualFocus = (data) => {
+    this.props.actions.selectVisualFocus(data);
+  }
+
+  filterSentences = (data) => {
+    this.props.actions.filterSentences(data);
+  }
+
+  selectDocument = (data) => {
+    this.props.actions.selectDocument(data);
   }
 
   render () {
@@ -47,31 +53,37 @@ class ControlPanel extends Component {
       <div className = "control-panel-container">
 
         <div className = "control-panel-top">
-          <div className = "control-panel-top-title">Visual focus</div>
-          <div>
-            <button onClick = {() => this.selectVisualFocus("WORDS")} className = {this.props.visualFocus === "WORDS" ? "visual-focus-btn active": "visual-focus-btn"}>Words</button>
-            <button onClick = {() => this.selectVisualFocus("SENTENCES")} className = {this.props.visualFocus === "SENTENCES" ? "visual-focus-btn active": "visual-focus-btn"}>Sentences</button>
-          </div>
+          <DocSentenceFilter
+            documentData = {[""]}
+            currentDocument = {this.props.currentDocument}
+            phraseData = {this.props.phraseData}
+            filterSentences = {this.filterSentences}
+            selectDocument = {this.selectDocument}
+            />
         </div>
 
         <div className = "control-panel-separator"></div>
+
         <div className = "control-panel-bottom">
           <NgramSelector
+            visualFocus = {this.props.visualFocus}
             selectNgramPostion = {this.selectNgramPostion}
 
             currentNgram = {this.props.currentNgram}
             currentNgramPosition = {this.props.currentNgramPosition}
             />
 
-          <SentimentFilter filterSentiment = {this.filterSentiment}
-            sentimentFilters = {this.props.sentimentFilters}/>
-
-          <JSONFilter filterJSON = {this.filterJSON} />
-
-          <DepthSelector
-            selectDepth = {this.selectDepth}
-            depthOn = {this.props.depthOn}
+          <VisualFocusSelector
+            selectVisualFocus = {this.selectVisualFocus}
+            visualFocus = {this.props.visualFocus}
             />
+
+          <SentimentFilter filterSentiment = {this.filterSentiment}
+              sentimentFilters = {this.props.sentimentFilters}/>
+
+          <JSONFilter filterJSON = {this.filterJSON}
+            jsonOn = {this.props.jsonOn}/>
+
         </div>
       </div>
     );
@@ -88,9 +100,8 @@ function mapStateToProps(state){
   return {
     currentNgramPosition: state.ControlPanel.currentNgramPosition,
     sentimentFilters: state.ControlPanel.sentimentFilters,
-    depthOn: state.ControlPanel.depthOn,
-    jsonOn: state.ControlPanel.jsonOn,
     visualFocus: state.ControlPanel.visualFocus,
+    jsonOn: state.ControlPanel.jsonOn,
 
     currentText: state.EntrySection.currentText,
     phraseData: state.EntrySection.phrase

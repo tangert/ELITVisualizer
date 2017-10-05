@@ -5,40 +5,97 @@ triggered by the control panel. E.g., moving around the slider,
 selecting the sentiment filters, etc.
 ******/
 
-import { SELECT_VISUAL_FOCUS,
-         SELECT_NGRAM_POSITION,
-         SELECT_DEPTH,
+import { SELECT_NGRAM_POSITION,
+         SELECT_VISUAL_FOCUS,
+         FILTER_SENTENCES,
          FILTER_JSON,
-         FILTER_SENTIMENT } from './../actions/ActionTypes'
+         FILTER_SENTIMENT,
+         SELECT_DOCUMENT } from './../actions/ActionTypes'
+
+import { NEGATIVE,
+         NEUTRAL,
+         POSITIVE } from './../constants.js'
 
 const initialState = {
-  visualFocus: "WORDS",
   currentNgramPosition: 1,
   sentimentFilters: {
-    pos: true,
-    neg: true
+    positive: false,
+    neutral: false,
+    negative: false
   },
-  depthOn: false,
+  visualFocus: {
+    opacity: false,
+    scale: false
+  },
   jsonOn: false,
+  visibleSentences: [],
+  currentDocument: 0
 };
+
+function selectVisualFocus(state, focus) {
+  let visualFocus;
+
+  if(focus === "OPACITY") {
+    visualFocus = {
+      opacity: !state.visualFocus.opacity,
+      scale: state.visualFocus.scale
+    }
+  } else {
+    visualFocus = {
+      opacity: state.visualFocus.opacity,
+      scale: !state.visualFocus.scale
+    }
+  }
+  return visualFocus;
+}
+
+function selectSentimentFilters(state, buttonType) {
+  let filters;
+
+  if(buttonType === NEGATIVE) {
+    filters = {
+      positive: state.sentimentFilters.positive,
+      neutral: state.sentimentFilters.neutral,
+      negative: !state.sentimentFilters.negative
+    }
+  } else if (buttonType === NEUTRAL) {
+    filters = {
+      positive: state.sentimentFilters.positive,
+      neutral: !state.sentimentFilters.neutral,
+      negative: state.sentimentFilters.negative
+    }
+  } else {
+    filters = {
+      positive: !state.sentimentFilters.positive,
+      neutral: state.sentimentFilters.neutral,
+      negative: state.sentimentFilters.negative
+    }
+  }
+  return filters;
+}
 
 export default function ControlPanel(state = initialState, action) {
   switch(action.type){
-
-    case SELECT_VISUAL_FOCUS:
-      return { ...state, visualFocus: action.payload }
 
     case SELECT_NGRAM_POSITION:
       return { ...state, currentNgramPosition: action.payload }
 
     case FILTER_SENTIMENT:
-      return { ...state, sentimentFilters: action.payload }
+      return { ...state,
+        sentimentFilters: selectSentimentFilters(state, action.payload)
+      }
 
-    case SELECT_DEPTH:
-      return { ...state, depthOn: action.payload }
+    case SELECT_VISUAL_FOCUS:
+      return { ...state, visualFocus: selectVisualFocus(state, action.payload)}
 
     case FILTER_JSON:
       return { ...state, jsonOn: action.payload }
+
+    case FILTER_SENTENCES:
+      return { ...state, visibleSentences: action.payload }
+
+    case SELECT_DOCUMENT:
+      return { ...state, currentDocument: action.payload }
 
     default:
       return initialState;

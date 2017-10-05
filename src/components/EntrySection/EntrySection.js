@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Dropzone from 'react-dropzone'
 import './EntrySection.css'
 
 //Redux
@@ -7,6 +8,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 class EntrySection extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      files: []
+    }
+  }
 
   editText = (e) => {
     this.props.actions.editText(e.target.value);
@@ -18,21 +25,57 @@ class EntrySection extends Component {
     } else {
       console.log("need text");
     }
-
-    //Here, send a request to the ELIT API with this.props.currentText.
   }
 
-  render () {
+  onDrop = (acceptedFiles, rejectedFiles) => {
+    this.setState({
+      acceptedFiles
+    });
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+        JSON.parse(reader.result, (err, data) => {
+            console.log(data);
+        });
+    };
+
+    reader.readAsText(acceptedFiles[0]);
+    //send over to new redux action to analyze directly.
+  }
+
+  render() {
+
+    /*
+    <Dropzone style = {{
+      height: "50px",
+      color: "rgba(0,0,0,0.25)",
+      borderColor: "rgba(0,0,0,0.1)",
+      borderWidth: "2px",
+      borderStyle: "dotted",
+      flex: 1,
+      marginRight: "20px",
+      borderRadius: "10px",
+      padding: "10px",
+      }}onDrop={this.onDrop}>
+        Drop a file here
+    </Dropzone>
+    */
+    
     return(
-      <div className = "entry-section-container">
+      <div className = "entry-section-container"
+        >
+        <div className = "entry">
           <textarea
             value = {this.props.currentText}
             onChange = {this.editText}
+            onFocus = {this.handleEntryFocus}
             className = "entry-textarea"
-            placeholder = "Enter any text here to analyze its sentiment.">
+            placeholder = "Enter any text to analyze its sentiment.">
           </textarea>
+
           <button onClick = {this.analyzeText} className = "analyze-text-btn">Analyze</button>
-        <div className = "separator"></div>
+        </div>
       </div>
     );
   }

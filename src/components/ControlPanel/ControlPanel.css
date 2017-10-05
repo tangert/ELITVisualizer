@@ -4,7 +4,8 @@
   justify-content: center;
   align-items: center;
   width: 90%;
-  min-height: 150px;
+  min-height: 250px;
+  margin-bottom: -50px;
 }
 
 .control-panel-top {
@@ -60,7 +61,6 @@
   align-items: flex-start;
   width: 90%;
   flex: 1;
-  min-height: 150px;
 }
 
 .control-panel-title {

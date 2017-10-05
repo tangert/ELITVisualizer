@@ -30,14 +30,6 @@ class NgramSelector extends Component {
     return className;
   }
 
-  renderMarks = (currentNgram) => {
-    let marks = {};
-    for(var i = 1; i <= currentNgram; i++) {
-      marks[i] = i;
-    }
-    return marks;
-  }
-
   render () {
     return(
       <div className = "ngram-selector-container">
@@ -46,6 +38,7 @@ class NgramSelector extends Component {
         <div className = "slider-wrapper">
 
           <Slider
+            disabled = {!this.props.visualFocus.scale && !this.props.visualFocus.opacity}
             onChange={this.selectNgramPostion}
             value = {this.props.currentNgramPosition}
             min= {1}

@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import './Ngram.css';
 
-const red = {r: 212, g: 75, b: 60};
-const blue = {r: 158, g: 222, b: 242};
-const gray = {r: 112, g: 112, b: 112};
-
 class Ngram extends Component {
   constructor(props){
     super(props);
@@ -18,39 +14,14 @@ class Ngram extends Component {
   }
 
   renderColor = (weight) => {
-    if(weight < 0) {
-      return this.convertPercentToColor(gray, red, Math.abs(weight));
-    } else {
-      return this.convertPercentToColor(gray, blue, weight);
-    }
-  }
 
-  convertPercentToColor = (color1, color2, percent) => {
-    var newColor = {};
+    let color = {
+      r: weight[0]*255,
+      g: weight[1]*255,
+      b: weight[2]*255
+    };
 
-    function makeChannel(a, b) {
-        return(a + Math.round((b-a)*(percent)));
-    }
-
-    function makeColorPiece(num) {
-        num = Math.min(num, 255);   // not more than 255
-        num = Math.max(num, 0);     // not less than 0
-        var str = num.toString(16);
-        if (str.length < 2) {
-            str = "0" + str;
-        }
-        return(str);
-    }
-
-    newColor.r = makeChannel(color1.r, color2.r);
-    newColor.g = makeChannel(color1.g, color2.g);
-    newColor.b = makeChannel(color1.b, color2.b);
-    newColor.cssColor = "#" +
-                        makeColorPiece(newColor.r) +
-                        makeColorPiece(newColor.g) +
-                        makeColorPiece(newColor.b);
-
-    return(newColor);
+    return color;
   }
 
 
@@ -87,29 +58,54 @@ class Ngram extends Component {
       opacity = 0.1;
     }
 
-    content_style = {
-      backgroundColor: "white",
-      color: this.renderColor(this.props.weight).cssColor,
-      margin: "2.5px",
-      transition: "0.2s"
-    };
-
-    let ratio = this.props.ratio;
+    let color = this.renderColor(this.props.sentenceSentiment);
+    // console.log(baseColor);
+    let scaleFactor = this.props.weight;
     let heightRatio = 100;
 
-    if (this.props.depthOn){
+    let baseColor = "rgba(" +
+    Math.round(color.r) + "," +
+    Math.round(color.g) + "," +
+    Math.round(color.b) +",";
 
+    if (!this.props.visualFocus.scale && !this.props.visualFocus.opacity) {
+
+      content_style = {
+        backgroundColor: "white",
+        color: baseColor + "1)",
+        margin: "2.5px",
+        fontSize: "1.5em",
+        transition: "0.2s"
+      };
+    }
+
+    container_style = {
+      transition: "0.2s",
+      height: "auto",
+      width: "auto",
+      opacity: opacity
+    };
+
+    if (this.props.visualFocus.opacity) {
+      content_style = {
+        backgroundColor: "white",
+        color: baseColor + (this.props.weight) + ")",
+        margin: "2.5px",
+        fontSize: "1.5em",
+        transition: "0.2s"
+      };
+    }
+
+    if (this.props.visualFocus.scale){
       container_style = {
         transition: "0.2s",
-
-        backgroundColor: this.renderColor(this.props.weight).cssColor,
-        height: ratio*heightRatio,
-        width: ratio*heightRatio,
+        backgroundColor: baseColor + (this.props.visualFocus.opacity ? this.props.weight : "1)"),
+        height: scaleFactor*heightRatio,
+        width: scaleFactor*heightRatio,
         borderRadius: "50%",
+
         marginLeft: "5px",
         marginRight: "5px",
-
-        transform: this.props.transform,
 
         display: "flex",
         alignItems: "center",
@@ -119,20 +115,12 @@ class Ngram extends Component {
       };
 
       content_style = {
-        fontSize: ratio + "em",
+        fontSize: scaleFactor + "em",
         color: "white",
         backgroundColor: "transparent",
         transition: "0.2s ease-in",
-        opacity: opacity
       };
 
-    } else {
-      container_style = {
-        transition: "0.2s",
-        height: "auto",
-        width: "auto",
-        opacity: opacity
-      };
     }
 
     return(
