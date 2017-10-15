@@ -14,16 +14,12 @@ class Ngram extends Component {
   }
 
   renderColor = (weight) => {
-
-    let color = {
+    return {
       r: weight[0]*255,
       g: weight[1]*255,
       b: weight[2]*255
     };
-
-    return color;
   }
-
 
   handle_mouse_enter = (e) => {
     this.setState({
@@ -74,7 +70,7 @@ class Ngram extends Component {
         backgroundColor: "white",
         color: baseColor + "1)",
         margin: "2.5px",
-        fontSize: "1.5em",
+        fontSize: "1.2em",
         transition: "0.2s"
       };
     }
@@ -91,7 +87,7 @@ class Ngram extends Component {
         backgroundColor: "white",
         color: baseColor + (this.props.weight) + ")",
         margin: "2.5px",
-        fontSize: "1.5em",
+        fontSize: "1.2em",
         transition: "0.2s"
       };
     }

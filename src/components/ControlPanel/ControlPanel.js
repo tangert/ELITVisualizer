@@ -49,20 +49,44 @@ class ControlPanel extends Component {
   }
 
   render () {
-    return(
-      <div className = "control-panel-container">
 
+    let entryFocusStyle;
+    let overlay;
+
+    if(this.props.entryIsFocused) {
+      entryFocusStyle = {
+        marginTop: "50px",
+        zIndex: -999, /* Specify a stack order in case you're using a different order for other elements */
+      }
+
+      overlay = (
+        <div className = "overlay"
+             style = {{
+              position: "fixed", /* Sit on top of the page content */
+              width: "100%", /* Full width (cover the whole page) */
+              height: "100%", /* Full height (cover the whole page) */
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(0,0,0,0.5)", /* Black background with opacity */
+              zIndex: 999, /* Specify a stack order in case you're using a different order for other elements */
+              cursor: "pointer", /* Add a pointer on hover */
+             }}></div>
+      )
+    }
+
+    return(
+      <div className = "control-panel-container" style = {entryFocusStyle}>
+        {overlay}
         <div className = "control-panel-top">
           <DocSentenceFilter
-            documentData = {[""]}
-            currentDocument = {this.props.currentDocument}
-            phraseData = {this.props.phraseData}
+            documents = {this.props.documents}
+            selectedDocument = {this.props.selectedDocument}
             filterSentences = {this.filterSentences}
             selectDocument = {this.selectDocument}
             />
         </div>
-
-        <div className = "control-panel-separator"></div>
 
         <div className = "control-panel-bottom">
           <NgramSelector
@@ -102,9 +126,12 @@ function mapStateToProps(state){
     sentimentFilters: state.ControlPanel.sentimentFilters,
     visualFocus: state.ControlPanel.visualFocus,
     jsonOn: state.ControlPanel.jsonOn,
+    selectedDocument: state.ControlPanel.selectedDocument,
+    entryIsFocused: state.EntrySection.entryIsFocused,
 
     currentText: state.EntrySection.currentText,
-    phraseData: state.EntrySection.phrase
+    phraseData: state.EntrySection.phrase,
+    documents: state.EntrySection.documents
   };
 }
 

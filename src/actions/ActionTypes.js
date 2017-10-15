@@ -1,6 +1,7 @@
 /****TEXT ENTRY****/
 export const EDIT_TEXT = 'EDIT_TEXT';
 export const ANALYZE_TEXT = 'ANALYZE_TEXT';
+export const HANDLE_ENTRY_FOCUS = 'HANDLE_ENTRY_FOCUS';
 
 /****CONTROL PANEL****/
 export const SELECT_DOCUMENT = 'SELECT_DOCUMENT';

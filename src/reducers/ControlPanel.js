@@ -29,7 +29,7 @@ const initialState = {
   },
   jsonOn: false,
   visibleSentences: [],
-  currentDocument: 0
+  selectedDocument: 0
 };
 
 function selectVisualFocus(state, focus) {
@@ -95,7 +95,7 @@ export default function ControlPanel(state = initialState, action) {
       return { ...state, visibleSentences: action.payload }
 
     case SELECT_DOCUMENT:
-      return { ...state, currentDocument: action.payload }
+      return { ...state, selectedDocument: action.payload }
 
     default:
       return initialState;

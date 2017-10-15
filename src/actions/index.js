@@ -15,6 +15,13 @@ export function analyzeText(data){
   }
 }
 
+export function handleEntryFocus(data) {
+  return {
+    type: types.HANDLE_ENTRY_FOCUS,
+    payload: data
+  }
+}
+
 /********************************/
 /********************************/
 /********************************/

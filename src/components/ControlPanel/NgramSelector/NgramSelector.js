@@ -6,11 +6,12 @@ import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css';
 
 const marks = {
+  0: "AVG",
   1: 1,
   2: 2,
   3: 3,
   4: 4,
-  5: 5
+  5: 5,
 };
 
 class NgramSelector extends Component {
@@ -41,7 +42,7 @@ class NgramSelector extends Component {
             disabled = {!this.props.visualFocus.scale && !this.props.visualFocus.opacity}
             onChange={this.selectNgramPostion}
             value = {this.props.currentNgramPosition}
-            min= {1}
+            min= {0}
             max ={5}
             marks = {marks}
             />

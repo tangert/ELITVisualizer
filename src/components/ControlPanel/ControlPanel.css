@@ -50,9 +50,11 @@
   }
 
 .control-panel-separator {
+  display: none;
   height: 1px;
   width: 50%;
   background-color: lightgrey;
+  margin-top: 20px;
 }
 .control-panel-bottom {
   display: flex;
@@ -70,6 +72,7 @@
   letter-spacing: 5px;
   margin-bottom: 10px;
   opacity: 0.35;
+  user-select: none;
 }
 
 .control-panel-btn {

@@ -11,105 +11,134 @@ import { connect } from 'react-redux';
 
 class Visualization extends Component {
 
+
   mapPosToWeights = (pos, sentence) => {
     switch(pos){
+      case 0:
+        return sentence.sentiment_attention[0];
       case 1:
-        return sentence.sentiment_attention_1;
+        return sentence.sentiment_attention[1];
         break;
       case 2:
-        return sentence.sentiment_attention_2;
+        return sentence.sentiment_attention[2];
         break;
       case 3:
-        return sentence.sentiment_attention_3;
+        return sentence.sentiment_attention[3];
         break;
       case 4:
-        return sentence.sentiment_attention_4;
+        return sentence.sentiment_attention[4];
         break;
       case 5:
-        return sentence.sentiment_attention_5;
+        return sentence.sentiment_attention[5];
         break;
       default:
-        return sentence.sentiment_attention_1;
+        return sentence.sentiment_attention[0];
     }
   }
 
-  renderNgrams = (phrase) => {
-    console.log("Rendering ngrams");
+  renderNgrams = (documents, selectedDocument) => {
 
-    let Ngrams = [];
-    let visibleSentences = this.props.visibleSentences;
+    //For multidocument selection.
+    // let currentDocuments = [];
+    //
+    // for(var i = 0; i < selectedDocument.length; i++) {
+    //   currentDocuments.push(documents[selectedDocument[i]]);
+    // }
 
-    let start = 0
-    let end = phrase.length;
+    let currentDocument = documents[selectedDocument];
+    console.log("FROM RENDER NGRAM. CURRENT: ",currentDocument);
 
-    if(visibleSentences.length > 0) {
-      start = visibleSentences[0];
-      end = visibleSentences[1] + 1;
-    }
+    if (currentDocument !== undefined && !this.props.entryIsFocused) {
 
-    for(let sentenceIndex = start; sentenceIndex < end; sentenceIndex++) {
+      let Ngrams = [];
+      let visibleSentences = this.props.visibleSentences;
 
-      let sentence = phrase[sentenceIndex];
-      console.log(sentence);
+      let start;
+      let end;
 
-      let weights = this.mapPosToWeights(this.props.ngramPos, sentence);
-      console.log(weights);
-      let isVisible;
-      let filters = this.props.sentimentFilters;
-
-      //Predominant sentiment in the sentence for filtering purposes.
-      let maxSent = Math.max(...sentence.sentiment);
-
-      let negScore = sentence.sentiment[0];
-      let neutScore = sentence.sentiment[1];
-      let posScore = sentence.sentiment[2];
-
-      let POSITIVE_PRESSED = filters.positive;
-      let NEGATIVE_PRESSED = filters.negative;
-      let NEUTRAL_PRESSED = filters.neutral;
-
-      for(let tokenIndex = 0; tokenIndex < weights.length; tokenIndex++) {
-
-        if(maxSent  === negScore) {
-          if(NEGATIVE_PRESSED) {
-            isVisible = true;
-          } else {
-            isVisible = false;
-          }
-        } else if (maxSent === neutScore) {
-          if(NEUTRAL_PRESSED) {
-            isVisible = true;
-          } else {
-            isVisible = false;
-          }
-        } else {
-          if(POSITIVE_PRESSED) {
-            isVisible = true;
-          } else {
-            isVisible = false;
-          }
-        }
-
-        //Default
-        if(!POSITIVE_PRESSED && !NEUTRAL_PRESSED && !NEGATIVE_PRESSED) {
-          isVisible = true;
-        }
-
-        Ngrams.push(
-          <Ngram
-            token = {sentence.tokens[tokenIndex]}
-            key = {sentence.tokens[tokenIndex] + sentenceIndex + tokenIndex}
-
-            sentenceSentiment = {sentence.sentiment}
-            weight = {weights[tokenIndex]}
-
-            visualFocus = {this.props.visualFocus}
-            visible = {isVisible}
-            />
-        );
+      if(visibleSentences.length > 0 && currentDocument.length > 1) {
+        start = visibleSentences[0];
+        end = visibleSentences[1] + 1;
+      } else {
+        start = 0;
+        end = currentDocument.length;
       }
+
+      for(let sentenceIndex = start; sentenceIndex < end; sentenceIndex++) {
+
+        let sentence = currentDocument[sentenceIndex];
+
+        if(sentence === undefined) {
+          return [];
+        }
+
+        let weights = this.mapPosToWeights(this.props.ngramPos, sentence);
+        let isVisible;
+        let filters = this.props.sentimentFilters;
+
+        //Predominant sentiment in the sentence for filtering purposes.
+        let maxSent = 0;
+
+        if(sentence.sentiment !== undefined) {
+
+          for(var i = 0; i < sentence.sentiment.length; i++) {
+            if (sentence.sentiment[i] > maxSent) {
+              maxSent = sentence.sentiment[i];
+            }
+          }
+
+          let negScore = sentence.sentiment[0];
+          let neutScore = sentence.sentiment[1];
+          let posScore = sentence.sentiment[2];
+
+          let POSITIVE_PRESSED = filters.positive;
+          let NEGATIVE_PRESSED = filters.negative;
+          let NEUTRAL_PRESSED = filters.neutral;
+
+          for(let tokenIndex = 0; tokenIndex < weights.length; tokenIndex++) {
+
+            if(maxSent  === negScore) {
+              if(NEGATIVE_PRESSED) {
+                isVisible = true;
+              } else {
+                isVisible = false;
+              }
+            } else if (maxSent === neutScore) {
+              if(NEUTRAL_PRESSED) {
+                isVisible = true;
+              } else {
+                isVisible = false;
+              }
+            } else {
+              if(POSITIVE_PRESSED) {
+                isVisible = true;
+              } else {
+                isVisible = false;
+              }
+            }
+
+            //Default
+            if(!POSITIVE_PRESSED && !NEUTRAL_PRESSED && !NEGATIVE_PRESSED) {
+              isVisible = true;
+            }
+
+            Ngrams.push(
+              <Ngram
+                token = {sentence.tokens[tokenIndex]}
+                key = {sentence.tokens[tokenIndex] + sentenceIndex + tokenIndex}
+
+                sentenceSentiment = {sentence.sentiment}
+                weight = {weights[tokenIndex]}
+
+                visualFocus = {this.props.visualFocus}
+                visible = {isVisible}
+                />
+            );
+          }
+        }
+      }
+      return Ngrams;
     }
-    return Ngrams;
   }
 
   render () {
@@ -140,17 +169,19 @@ class Visualization extends Component {
     };
 
     //This is to help out the minheiht of the container.
-    if(this.props.phrase.length > 0) {
-      maxNodeHeight = Math.max(...this.props.phrase.map((sentence) => {
+    let currDoc = this.props.documents[this.props.selectedDocument];
+
+    if(currDoc !== undefined) {
+      maxNodeHeight = Math.max(...currDoc.map((sentence) => {
         return sentence.tokens.length;
       }));
 
       if(this.props.visibleSentences.length > 0) {
         sentenceCount = this.props.visibleSentences[1] - this.props.visibleSentences[0];
-        console.log("visible sentence lenght: ", sentenceCount);
+        // console.log("visible sentence lenght: ", sentenceCount);
       } else {
-        sentenceCount = this.props.phrase.length;
-        console.log("phrase sentence lenght: ", sentenceCount);
+        sentenceCount = currDoc.length;
+        // console.log("phrase sentence lenght: ", sentenceCount);
       }
     } else {
       maxNodeHeight = 100;
@@ -166,13 +197,21 @@ class Visualization extends Component {
       )
     }
 
+    let entryFocusStyle;
+    if(this.props.entryIsFocused) {
+      entryFocusStyle = {
+        zIndex: -999,
+        opacity: 0.2
+      }
+    }
+
     return(
       <div
         className = "visualization-container"
-        style = {this.props.visualFocus.scale ? {minHeight: maxNodeHeight * sentenceCount * 5} : {}}>
+        style = {this.props.visualFocus.scale ? {minHeight: sentenceCount } : {}}>
 
-        <div className = "ngrams-container">
-          { this.renderNgrams(this.props.phrase) }
+        <div className = "ngrams-container" style = {entryFocusStyle}>
+          { this.renderNgrams(this.props.documents, this.props.selectedDocument) }
         </div>
 
         {jsonContainer}
@@ -194,7 +233,10 @@ function mapStateToProps(state){
     jsonOn: state.ControlPanel.jsonOn,
     ngramPos: state.ControlPanel.currentNgramPosition,
     visualFocus: state.ControlPanel.visualFocus,
-    phrase: state.EntrySection.phrase,
+    entryIsFocused: state.EntrySection.entryIsFocused,
+
+    documents: state.EntrySection.documents,
+    selectedDocument: state.ControlPanel.selectedDocument,
     visibleSentences: state.ControlPanel.visibleSentences
   };
 }
