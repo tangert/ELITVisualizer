@@ -9,7 +9,7 @@
 }
 
 .entry-section-container * {
-  transition: all 0.2s ease-in;
+  transition: 0.25s;
   font-family: "Maven Pro";
 }
 

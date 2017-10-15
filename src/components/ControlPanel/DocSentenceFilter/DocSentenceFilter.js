@@ -11,15 +11,6 @@ const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
 const Handle = Slider.Handle;
 
-var options = [
-  { value: 'one', label: 'One' },
-  { value: 'two', label: 'Two' }
-];
-
-function logChange(val) {
-  console.log("Selected: " + JSON.stringify(val));
-}
-
 class DocSentenceFilter extends Component {
 
   createDocumentOptions = (documents) => {
@@ -35,18 +26,6 @@ class DocSentenceFilter extends Component {
 
       return options;
     }
-    // if(documents !== undefined) {
-    //   let options = [];
-    //
-    //   for(var i = 0; i < documents.length; i++) {
-    //     let newOption = (
-    //       <option key = {i} value={i}>{i+1}</option>
-    //     );
-    //     options.push(newOption);
-    //   }
-    //
-    //   return options;
-    // }
   }
 
   renderOptions = ({ key, option, style}) => {

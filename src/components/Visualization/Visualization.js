@@ -38,15 +38,7 @@ class Visualization extends Component {
 
   renderNgrams = (documents, selectedDocument) => {
 
-    //For multidocument selection.
-    // let currentDocuments = [];
-    //
-    // for(var i = 0; i < selectedDocument.length; i++) {
-    //   currentDocuments.push(documents[selectedDocument[i]]);
-    // }
-
     let currentDocument = documents[selectedDocument];
-    console.log("FROM RENDER NGRAM. CURRENT: ",currentDocument);
 
     if (currentDocument !== undefined && !this.props.entryIsFocused) {
 
@@ -178,10 +170,8 @@ class Visualization extends Component {
 
       if(this.props.visibleSentences.length > 0) {
         sentenceCount = this.props.visibleSentences[1] - this.props.visibleSentences[0];
-        // console.log("visible sentence lenght: ", sentenceCount);
       } else {
         sentenceCount = currDoc.length;
-        // console.log("phrase sentence lenght: ", sentenceCount);
       }
     } else {
       maxNodeHeight = 100;
@@ -192,7 +182,7 @@ class Visualization extends Component {
     if(this.props.jsonOn) {
       jsonContainer = (
         <div className = "json-container" style = {{flex: 1}}>
-          <JSONTree data = {this.props.phrase}  theme = {theme} invertTheme/>
+          <JSONTree data = {this.props.documents}  theme = {theme} invertTheme/>
         </div>
       )
     }
@@ -208,7 +198,7 @@ class Visualization extends Component {
     return(
       <div
         className = "visualization-container"
-        style = {this.props.visualFocus.scale ? {minHeight: sentenceCount } : {}}>
+        style = {this.props.visualFocus.scale ? {minHeight: sentenceCount * maxNodeHeight * 5} : {}}>
 
         <div className = "ngrams-container" style = {entryFocusStyle}>
           { this.renderNgrams(this.props.documents, this.props.selectedDocument) }

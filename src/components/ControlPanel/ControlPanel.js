@@ -48,6 +48,10 @@ class ControlPanel extends Component {
     this.props.actions.selectDocument(data);
   }
 
+  getRandom = (arr) => {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
   render () {
 
     let entryFocusStyle;
@@ -79,6 +83,7 @@ class ControlPanel extends Component {
     }
 
     let controlPanel;
+    let emojis = ["T__T", "ಠ_ರೃ", "(>_<)", "(¬▂¬)", "(｡☉︵ ಠ╬)", "╭(๑¯д¯๑)╮", "⋌༼ •̀ ⌂ •́ ༽⋋", "(ಠ ∩ಠ)"];
 
     if(this.props.analyzedText === "") {
       controlPanel = (
@@ -90,7 +95,7 @@ class ControlPanel extends Component {
             color: "lightgrey"}}>
 
             <h1>Uh oh. You haven't analyzed anything yet.</h1>
-            <h1 style = {{fontSize: "5em"}}>T____T</h1>
+            <h1 style = {{fontSize: "5em"}}>{this.getRandom(emojis)}</h1>
 
           </div>
         </div>

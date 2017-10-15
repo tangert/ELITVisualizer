@@ -9,8 +9,8 @@ const initialState = {
 
 function calculateNewDocumentData(phrase) {
   let docs = [];
-  for(var i = 0; i < 20; i++) {
-    // let new_doc = calculateNewPhraseData(phrase).slice(i,i+1);
+  for(var i = 0; i < 10; i++) {
+    // let new_doc = calculateNewPhraseData(phrase);
     let new_doc = calculateNewPhraseData(phrase).slice(0,i+1);
     docs.push(new_doc);
   }
