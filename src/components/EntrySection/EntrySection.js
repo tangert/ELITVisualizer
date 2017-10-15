@@ -175,7 +175,8 @@ class EntrySection extends Component {
       };
 
       textAreaStyle = {
-        height: "50vh",
+        minHeight: "250px",
+        height: "40vh",
         width: "75vw"
       }
 
@@ -185,8 +186,8 @@ class EntrySection extends Component {
         fontSize: "0.75em",
         marginTop: "25px",
         maxWidth: "100%",
-        height: "100px",
-        width: "25vw"
+        minHeight: "50px",
+        width: "25%"
       }
 
       flagStyle = {
