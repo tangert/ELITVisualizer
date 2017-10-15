@@ -9,6 +9,9 @@ const initialState = {
 
 function calculateNewDocumentData(phrase) {
   let docs = [];
+
+  //HERE IS WHERE YOU WILL CALL AXIOS WITH THE GIVEN TEXT AND FLAGS.
+  
   for(var i = 0; i < 10; i++) {
     // let new_doc = calculateNewPhraseData(phrase);
     let new_doc = calculateNewPhraseData(phrase).slice(0,i+1);

@@ -92,6 +92,7 @@ class ControlPanel extends Component {
             {display: "flex",
             alignItems: "center",
             flexDirection: "column",
+            justifyContent: "center",
             color: "lightgrey"}}>
 
             <h1>Uh oh. You haven't analyzed anything yet.</h1>

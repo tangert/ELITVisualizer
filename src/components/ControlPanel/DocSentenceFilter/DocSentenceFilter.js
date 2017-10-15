@@ -83,7 +83,6 @@ class DocSentenceFilter extends Component {
 
   render () {
 
-
     let sentenceMax;
     let documentSelector;
     let sentenceFilter;

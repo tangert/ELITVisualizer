@@ -175,16 +175,17 @@ class EntrySection extends Component {
       };
 
       textAreaStyle = {
-        minHeight: "250px",
+        minHeight: "300px",
         height: "40vh",
-        width: "75vw"
+        width: "75vw",
+        marginBottom: "20px"
       }
 
       buttonStyle = {
         backgroundColor: "lightblue",
         color: "white",
         fontSize: "0.75em",
-        marginTop: "25px",
+        // marginTop: "25px",
         maxWidth: "100%",
         minHeight: "50px",
         width: "25%"
@@ -208,10 +209,9 @@ class EntrySection extends Component {
     }
 
     return(
-      <div className = "entry-section-container">
-
-        <div className = "entry" style = {entryStyle}
-          ref={this.setWrapperRef}>
+      <div className = "entry-section-container"
+        style = {entryStyle}
+        ref={this.setWrapperRef}>
 
           <textarea
             value = {this.props.currentText}
@@ -255,11 +255,10 @@ class EntrySection extends Component {
               </div>
             </div>
 
+            <button style = {buttonStyle} onClick = {this.analyzeText} className = "analyze-text-btn">Analyze</button>
+
           </div>
 
-          <button style = {buttonStyle} onClick = {this.analyzeText} className = "analyze-text-btn">Analyze</button>
-
-      </div>
 
       </div>
     );

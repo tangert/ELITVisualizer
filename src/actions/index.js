@@ -80,3 +80,10 @@ export function setPerspective(data) {
     payload: data
   }
 }
+
+export function setHoveredSection(data) {
+  return {
+    type: types.SET_HOVERED_SECTION,
+    payload: data
+  }
+}
