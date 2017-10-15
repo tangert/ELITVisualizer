@@ -51,10 +51,12 @@ class ControlPanel extends Component {
   render () {
 
     let entryFocusStyle;
+    let controlPanelContainerStyle;
+    let controlPanelStyle;
     let overlay;
 
     if(this.props.entryIsFocused) {
-      entryFocusStyle = {
+      controlPanelContainerStyle = {
         marginTop: "50px",
         zIndex: -999, /* Specify a stack order in case you're using a different order for other elements */
       }
@@ -76,39 +78,71 @@ class ControlPanel extends Component {
       )
     }
 
+    let controlPanel;
+
+    if(this.props.analyzedText === "") {
+      controlPanel = (
+        <div className = "control-panel-content">
+          <div style = {
+            {display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+            color: "lightgrey"}}>
+
+            <h1>Uh oh. You haven't analyzed anything yet.</h1>
+            <h1 style = {{fontSize: "5em"}}>T____T</h1>
+
+          </div>
+        </div>
+      )
+    } else {
+
+      controlPanel = (
+        <div className = "control-panel-content">
+
+          <div className = "control-panel-top" >
+            <DocSentenceFilter
+              documents = {this.props.documents}
+              selectedDocument = {this.props.selectedDocument}
+              filterSentences = {this.filterSentences}
+              selectDocument = {this.selectDocument}
+              />
+          </div>
+
+          <div className = "control-panel-bottom">
+            <NgramSelector
+              visualFocus = {this.props.visualFocus}
+              selectNgramPostion = {this.selectNgramPostion}
+
+              currentNgram = {this.props.currentNgram}
+              currentNgramPosition = {this.props.currentNgramPosition}
+              />
+
+            <VisualFocusSelector
+              selectVisualFocus = {this.selectVisualFocus}
+              visualFocus = {this.props.visualFocus}
+              />
+
+            <SentimentFilter filterSentiment = {this.filterSentiment}
+                sentimentFilters = {this.props.sentimentFilters}/>
+
+            <JSONFilter filterJSON = {this.filterJSON}
+              jsonOn = {this.props.jsonOn}/>
+
+          </div>
+
+        </div>
+      );
+    }
+
     return(
-      <div className = "control-panel-container" style = {entryFocusStyle}>
+      <div className = "control-panel-container"
+        style = {controlPanelContainerStyle}
+        >
+
         {overlay}
-        <div className = "control-panel-top">
-          <DocSentenceFilter
-            documents = {this.props.documents}
-            selectedDocument = {this.props.selectedDocument}
-            filterSentences = {this.filterSentences}
-            selectDocument = {this.selectDocument}
-            />
-        </div>
+        {controlPanel}
 
-        <div className = "control-panel-bottom">
-          <NgramSelector
-            visualFocus = {this.props.visualFocus}
-            selectNgramPostion = {this.selectNgramPostion}
-
-            currentNgram = {this.props.currentNgram}
-            currentNgramPosition = {this.props.currentNgramPosition}
-            />
-
-          <VisualFocusSelector
-            selectVisualFocus = {this.selectVisualFocus}
-            visualFocus = {this.props.visualFocus}
-            />
-
-          <SentimentFilter filterSentiment = {this.filterSentiment}
-              sentimentFilters = {this.props.sentimentFilters}/>
-
-          <JSONFilter filterJSON = {this.filterJSON}
-            jsonOn = {this.props.jsonOn}/>
-
-        </div>
       </div>
     );
   }
@@ -130,6 +164,7 @@ function mapStateToProps(state){
     entryIsFocused: state.EntrySection.entryIsFocused,
 
     currentText: state.EntrySection.currentText,
+    analyzedText: state.EntrySection.analyzedText,
     phraseData: state.EntrySection.phrase,
     documents: state.EntrySection.documents
   };

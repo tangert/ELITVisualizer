@@ -53,14 +53,11 @@ class EntrySection extends Component {
   analyzeText = () => {
     if(this.props.currentText !== "") {
       this.props.actions.analyzeText(this.props.currentText);
+      this.handleEntryBlur();
     } else {
       console.log("need text");
     }
-    this.handleEntryBlur();
   }
-
-  //if raw is selected and you click it again, dont do anything
-  //if raw is selected and you click live, turn off raw and switch
 
   //same logic for sentiment model
   toggleInput = (type) => {
@@ -164,11 +161,11 @@ class EntrySection extends Component {
 
   render() {
 
-    let entryStyle;
-    let textAreaStyle;
-    let buttonStyle;
-    let flagStyle;
-    let flagTitleStyle;
+    let entryStyle = {};
+    let textAreaStyle = {};
+    let buttonStyle = {};
+    let flagStyle = {};
+    let flagTitleStyle = {};
 
     if(this.props.entryIsFocused) {
 
@@ -199,6 +196,14 @@ class EntrySection extends Component {
       flagTitleStyle = {
         color: "white"
       }
+    }
+
+    if(this.props.currentText === "") {
+      buttonStyle.opacity = "0.5";
+      buttonStyle.backgroundColor = "lightgrey";
+      buttonStyle.border = "none";
+      buttonStyle.color = "white";
+      buttonStyle.userSelect = "none";
     }
 
     return(
@@ -252,7 +257,8 @@ class EntrySection extends Component {
           </div>
 
           <button style = {buttonStyle} onClick = {this.analyzeText} className = "analyze-text-btn">Analyze</button>
-        </div>
+
+      </div>
 
       </div>
     );

@@ -39,7 +39,6 @@ class NgramSelector extends Component {
         <div className = "slider-wrapper">
 
           <Slider
-            disabled = {!this.props.visualFocus.scale && !this.props.visualFocus.opacity}
             onChange={this.selectNgramPostion}
             value = {this.props.currentNgramPosition}
             min= {0}

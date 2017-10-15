@@ -1,6 +1,7 @@
 import { ANALYZE_TEXT, EDIT_TEXT, HANDLE_ENTRY_FOCUS } from './../actions/ActionTypes'
 
 const initialState = {
+  analyzedText: "",
   currentText: "",
   entryIsFocused: false,
   documents: [],
@@ -95,7 +96,8 @@ export default function EntrySection(state = initialState, action) {
   switch(action.type){
     case ANALYZE_TEXT:
       return { ...state,
-        documents: calculateNewDocumentData(action.payload)
+        documents: calculateNewDocumentData(action.payload),
+        analyzedText: state.currentText
     }
     case EDIT_TEXT:
       return { ...state, currentText: action.payload }
