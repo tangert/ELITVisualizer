@@ -175,9 +175,9 @@ class EntrySection extends Component {
       };
 
       textAreaStyle = {
-        minHeight: "300px",
-        height: "40vh",
+        minHeight: "40vh",
         width: "75vw",
+        maxWidth: "1000px",
         marginBottom: "20px"
       }
 
