@@ -99,7 +99,7 @@ class DocSentenceFilter extends Component {
         documentSelector = (
           <div className = "doc-traversal">
             <div className = "control-panel-title">Document selector</div>
-              <div style = {{display: "flex", flexDirection: "row"}}>
+              <div style = {{display: "flex", flexDirection: "row", marginTop: "5 px"}}>
                 <MdChevronLeft className = "chevron" onClick = {()=> this.selectDocumentArrow("LEFT", this.props.selectedDocument)}/>
 
                 <VirtualizedSelect
@@ -145,7 +145,8 @@ class DocSentenceFilter extends Component {
     }
 
     return(
-      <div className = "doc-sentence-filter-container">
+      <div className = "doc-sentence-filter-container"
+        style = {this.props.style} >
         {documentSelector}
         {sentenceFilter}
       </div>

@@ -9,7 +9,8 @@ class VisualFocusSelector extends React.Component {
 
   render () {
     return(
-      <div className = "visual-focus-selector-container">
+      <div className = "visual-focus-selector-container"
+            style = {this.props.style} >
         <div className = "control-panel-title">Visual Focus</div>
         <div className = "visual-focus-btns">
           <button onClick = {() => this.selectVisualFocus("OPACITY")}

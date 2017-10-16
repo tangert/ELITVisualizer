@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .doc-traversal {
@@ -9,7 +10,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-bottom: 10px;
+  /*background-color: red;*/
 }
 
   .document-selector {

@@ -33,7 +33,8 @@ class NgramSelector extends Component {
 
   render () {
     return(
-      <div className = "ngram-selector-container">
+      <div className = "ngram-selector-container"
+        style = {this.props.style} >
         <div className = "control-panel-title">NGram Selector</div>
 
         <div className = "slider-wrapper">

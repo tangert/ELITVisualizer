@@ -10,7 +10,8 @@ class JSONFilter extends Component {
 
   render () {
     return(
-      <div className = "json-filter-container">
+      <div className = "json-filter-container"
+        style = {this.props.style} >
         <div className = "control-panel-title">JSON</div>
         <Toggle on = {this.props.jsonOn} onClick = {this.toggle}/>
       </div>

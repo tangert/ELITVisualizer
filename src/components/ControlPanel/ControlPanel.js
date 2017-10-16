@@ -61,7 +61,7 @@ class ControlPanel extends Component {
 
     if(this.props.entryIsFocused) {
       controlPanelContainerStyle = {
-        marginTop: "50px",
+        // marginTop: "50px",
         zIndex: -999, /* Specify a stack order in case you're using a different order for other elements */
       }
 
@@ -84,6 +84,15 @@ class ControlPanel extends Component {
 
     let controlPanel;
     let emojis = ["T__T", "ಠ_ರೃ", "(>_<)", "(¬▂¬)", "(｡☉︵ ಠ╬)", "╭(๑¯д¯๑)╮", "⋌༼ •̀ ⌂ •́ ༽⋋", "(ಠ ∩ಠ)"];
+    let commonControlPanelCSS = {
+      padding: "15px 15px 25px 15px",
+      borderRadius: "10px",
+      marginLeft: "5px",
+      marginRight: "5px",
+      backgroundColor: "white",
+      boxShadow: "0px 5px 40px -2px rgba(0,0,0,0.2)"
+    };
+
 
     if(this.props.analyzedText === "") {
       controlPanel = (
@@ -106,17 +115,9 @@ class ControlPanel extends Component {
       controlPanel = (
         <div className = "control-panel-content">
 
-          <div className = "control-panel-top" >
-            <DocSentenceFilter
-              documents = {this.props.documents}
-              selectedDocument = {this.props.selectedDocument}
-              filterSentences = {this.filterSentences}
-              selectDocument = {this.selectDocument}
-              />
-          </div>
-
           <div className = "control-panel-bottom">
             <NgramSelector
+              style = {commonControlPanelCSS}
               visualFocus = {this.props.visualFocus}
               selectNgramPostion = {this.selectNgramPostion}
 
@@ -125,14 +126,27 @@ class ControlPanel extends Component {
               />
 
             <VisualFocusSelector
+              style = {commonControlPanelCSS}
               selectVisualFocus = {this.selectVisualFocus}
               visualFocus = {this.props.visualFocus}
               />
 
-            <SentimentFilter filterSentiment = {this.filterSentiment}
+            <DocSentenceFilter
+              style = {commonControlPanelCSS}
+              documents = {this.props.documents}
+              selectedDocument = {this.props.selectedDocument}
+              filterSentences = {this.filterSentences}
+              selectDocument = {this.selectDocument}
+              />
+
+            <SentimentFilter
+                style = {commonControlPanelCSS}
+                filterSentiment = {this.filterSentiment}
                 sentimentFilters = {this.props.sentimentFilters}/>
 
-            <JSONFilter filterJSON = {this.filterJSON}
+            <JSONFilter
+              style = {commonControlPanelCSS}
+              filterJSON = {this.filterJSON}
               jsonOn = {this.props.jsonOn}/>
 
           </div>
