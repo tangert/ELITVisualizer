@@ -37,13 +37,40 @@ class EntrySection extends Component {
 
   }
 
-    componentDidMount() {
-        document.addEventListener('mousedown', this.handleClickOutside);
+  mapStateToFlag = (state) => {
+    let flag;
+    let first;
+    let second;
+    let third;
+    let fourth;
+
+    if(state.input === "RAW"){
+      first = 0;
+    } else if (state.input === "LIVE") {
+      first = 1;
     }
 
-    componentWillUnmount() {
-        document.removeEventListener('mousedown', this.handleClickOutside);
+    second = 1;
+    third = 1;
+
+    if (state.model === "TWITTER") {
+      fourth = 3;
+    } else if(state.model === "MOVIE") {
+      fourth = 4;
     }
+
+    flag = "" + first + second + third + fourth;
+
+    return flag;
+  }
+
+  componentDidMount() {
+      document.addEventListener('mousedown', this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+      document.removeEventListener('mousedown', this.handleClickOutside);
+  }
 
 
   editText = (e) => {
@@ -52,8 +79,15 @@ class EntrySection extends Component {
 
   analyzeText = () => {
     if(this.props.currentText !== "") {
-      this.props.actions.analyzeText(this.props.currentText);
+
+      let dataToAnalyze = {
+        "input": this.props.currentText,
+        "flag": this.mapStateToFlag(this.state)
+      };
+
+      this.props.actions.analyzeText(dataToAnalyze);
       this.handleEntryBlur();
+
     } else {
       console.log("need text");
     }
@@ -110,9 +144,7 @@ class EntrySection extends Component {
 
   handleEntryBlur = () => {
     console.log("blurring");
-    //ONLY do it if one of the buttons is not pressed.
     this.props.actions.handleEntryFocus(false)
-    this.props.actions.analyzeText(this.props.currentText);
   }
 
   /**

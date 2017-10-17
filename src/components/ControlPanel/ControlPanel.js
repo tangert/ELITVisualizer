@@ -84,6 +84,7 @@ class ControlPanel extends Component {
 
     let controlPanel;
     let emojis = ["T__T", "ಠ_ರೃ", "(>_<)", "(¬▂¬)", "(｡☉︵ ಠ╬)", "╭(๑¯д¯๑)╮", "⋌༼ •̀ ⌂ •́ ༽⋋", "(ಠ ∩ಠ)"];
+
     let commonControlPanelCSS = {
       padding: "15px 15px 25px 15px",
       borderRadius: "10px",
