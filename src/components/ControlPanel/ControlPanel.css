@@ -6,6 +6,7 @@
   width: 90%;
   min-height: 250px;
   margin-top: 20px;
+  z-index: 999;
 }
 
   .control-panel-content {

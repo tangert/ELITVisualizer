@@ -5,6 +5,10 @@ import VirtualizedSelect from 'react-virtualized-select'
 import { MdChevronRight, MdChevronLeft } from 'react-icons/lib/md';
 import styles from './DocSentenceFilter.css';
 import 'rc-slider/assets/index.css';
+import 'react-select/dist/react-select.css'
+import 'react-virtualized/styles.css'
+import 'react-virtualized-select/styles.css'
+
 
 const style = { width: 400, marginBottom: 25, marginTop: 25 };
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
@@ -100,7 +104,7 @@ class DocSentenceFilter extends Component {
       sentenceMax = currentDocument.length;
 
       let DOCUMENT_CHECK = this.props.documents.length > 1;
-      let SENTENCE_CHECK = currentDocument.length > 4;
+      let SENTENCE_CHECK = currentDocument.length > 0;
 
       //eventually add search functionality and more custom styles.
 
@@ -108,14 +112,14 @@ class DocSentenceFilter extends Component {
         documentSelector = (
           <div className = "doc-traversal">
             <div className = "control-panel-title">Document selector</div>
-              <div style = {{display: "flex", flexDirection: "row", marginTop: "5 px"}}>
+              <div style = {{display: "flex", flexDirection: "row", marginTop: "5 px", alignItems: "center"}}>
                 <MdChevronLeft className = "chevron" onClick = {()=> this.selectDocumentArrow("LEFT", this.props.selectedDocument)}/>
 
                 <VirtualizedSelect
 
                   className = "virtualized-select"
 
-                  autofocus
+                  autofocus = {false}
                   clearable={false}
                   disabled={false}
 
@@ -123,10 +127,11 @@ class DocSentenceFilter extends Component {
                   valueKey='value'
 
                   multi={false}
-                  onChange ={(option) => this.selectDocument(option.value)}
+
+                  onChange ={(option) => option !== null ? this.selectDocument(option.value) : console.log("no value")}
                   options={this.createDocumentOptions(this.props.documents)}
                   optionRenderer={this.renderOptions}
-                  searchable={false}
+                  searchable={true}
                   value={this.props.selectedDocument}
                 />
 
@@ -146,6 +151,7 @@ class DocSentenceFilter extends Component {
               max = {currentDocument.length-1}
               marks={this.renderSentenceMarks(currentDocument)}
               onChange={this.onSentenceFilterChange}
+              defaultValue = {[0, currentDocument.length-1]}
               step = {1}
               />
           </div>

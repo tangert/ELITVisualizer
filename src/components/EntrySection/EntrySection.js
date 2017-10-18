@@ -28,8 +28,8 @@ class EntrySection extends Component {
       input: "RAW",
       model: "TWITTER",
 
-      tokenization: 0,
-      segmentation: 0
+      tokenization: 1,
+      segmentation: 1
     }
 
     this.setWrapperRef = this.setWrapperRef.bind(this);
@@ -286,12 +286,12 @@ class EntrySection extends Component {
             <div className = "input-options-bottom">
               <div className = "tokenization-section">
                 <div style = {flagTitleStyle} className = "flag-title">Tokenization</div>
-                <input className = "flag-checkbox" onChange = {this.toggleTokenization} type = "checkbox"></input>
+                <input className = "flag-checkbox" checked = {this.state.tokenization === 1 ? true : false} onChange = {this.toggleTokenization} type = "checkbox"></input>
               </div>
 
               <div className = "segmentation-section">
                 <div style = {flagTitleStyle} className = "flag-title">Segmentation</div>
-                  <input className = "flag-checkbox" onChange = {this.toggleSegmentation} type = "checkbox"></input>
+                  <input className = "flag-checkbox" checked = {this.state.segmentation === 1 ? true : false} onChange = {this.toggleSegmentation} type = "checkbox"></input>
               </div>
             </div>
 
