@@ -104,7 +104,7 @@ class DocSentenceFilter extends Component {
       sentenceMax = currentDocument.length;
 
       let DOCUMENT_CHECK = this.props.documents.length > 1;
-      let SENTENCE_CHECK = currentDocument.length > 0;
+      let SENTENCE_CHECK = currentDocument.length > 1;
 
       //eventually add search functionality and more custom styles.
 

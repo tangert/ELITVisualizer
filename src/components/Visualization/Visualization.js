@@ -204,7 +204,7 @@ class Visualization extends Component {
     return(
       <div
         className = "visualization-container"
-        style = {this.props.visualFocus.scale ? {minHeight: sentenceCount * maxNodeHeight * 5} : {}}>
+        style = {this.props.visualFocus.scale ? {minHeight: sentenceCount * maxNodeHeight * 4} : {}}>
 
         <div className = "ngrams-container" style = {entryFocusStyle}>
           { this.renderNgrams(this.props.documents, this.props.selectedDocument) }

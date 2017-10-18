@@ -1,15 +1,9 @@
 .entry-section-container {
-  /*
-  display: grid;
-  */
-
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-top: 20px;
   min-height: 100px;
-  width: 50%;
-  /*background-color: red;*/
 }
 
 .entry-section-container * {
@@ -19,7 +13,6 @@
 
 .entry-textarea {
   height: 50px;
-  flex: 5;
   margin-right: 20px;
   border-radius: 10px;
   padding: 10px;
@@ -31,7 +24,7 @@
   border-color: rgba(0,0,0,0.1);
   border-width: 2px;
   transition: 0.25s;
-  min-width: 100px;
+  width: 400px;
   border-style: solid;
 }
 

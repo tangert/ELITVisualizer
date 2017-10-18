@@ -153,10 +153,7 @@ class ControlPanel extends Component {
       )
     }
 
-    if((this.props.currentText === "" || this.props.analyzedText === "")
-        &&
-        this.props.analyzedSuccess
-      ) {
+    if(this.props.analyzedText === "") {
 
       controlPanel = (
         <div className = "control-panel-content">
