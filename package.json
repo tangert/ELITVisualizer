@@ -35,5 +35,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "homepage": "https://tangert.github.io/ELITVisualizer/"
+  "homepage": "demo.elit.cloud"
 }
