@@ -35,5 +35,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "homepage": "demo.elit.cloud"
+  "homepage": "http://demo.elit.cloud"
 }
