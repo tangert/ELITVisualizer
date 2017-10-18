@@ -94,29 +94,11 @@ class ControlPanel extends Component {
       boxShadow: "0px 5px 40px -2px rgba(0,0,0,0.2)"
     };
 
-
-    if(this.props.analyzedText === "") {
-      controlPanel = (
-        <div className = "control-panel-content">
-          <div style = {
-            {display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
-            justifyContent: "center",
-            color: "lightgrey"}}>
-
-            <h1>Uh oh. You haven't analyzed anything yet.</h1>
-            <h1 style = {{fontSize: "5em"}}>{this.getRandom(emojis)}</h1>
-
-          </div>
-        </div>
-      )
-    } else {
+    if(this.props.analyzedSuccess) {
 
       controlPanel = (
         <div className = "control-panel-content">
 
-          <div className = "control-panel-bottom">
             <NgramSelector
               style = {commonControlPanelCSS}
               visualFocus = {this.props.visualFocus}
@@ -150,10 +132,47 @@ class ControlPanel extends Component {
               filterJSON = {this.filterJSON}
               jsonOn = {this.props.jsonOn}/>
 
-          </div>
-
         </div>
       );
+    } else if (!this.props.analyzedSuccess){
+
+      controlPanel = (
+        <div className = "control-panel-content">
+          <div style = {
+            {display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+            justifyContent: "center",
+            color: "coral"}}>
+
+            <h1>Shoot. There was an error.</h1>
+            <h1 style = {{fontSize: "5em"}}>{this.getRandom(emojis)}</h1>
+
+          </div>
+        </div>
+      )
+    }
+
+    if((this.props.currentText === "" || this.props.analyzedText === "")
+        &&
+        this.props.analyzedSuccess
+      ) {
+
+      controlPanel = (
+        <div className = "control-panel-content">
+          <div style = {
+            {display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+            justifyContent: "center",
+            color: "lightgrey"}}>
+
+            <h1>Uh oh. You haven't analyzed anything yet.</h1>
+            <h1 style = {{fontSize: "5em"}}>{this.getRandom(emojis)}</h1>
+
+          </div>
+        </div>
+      )
     }
 
     return(
@@ -186,6 +205,7 @@ function mapStateToProps(state){
 
     currentText: state.EntrySection.currentText,
     analyzedText: state.EntrySection.analyzedText,
+    analyzedSuccess: state.EntrySection.analyzedSuccess,
     phraseData: state.EntrySection.phrase,
     documents: state.EntrySection.documents
   };

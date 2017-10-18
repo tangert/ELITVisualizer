@@ -50,7 +50,7 @@ class SentimentFilter extends Component {
 
   render () {
     return(
-      <div className = "sentiment-filter-container"
+      <div className = "control-panel-item-container"
         style = {this.props.style} >
         <div className = "control-panel-title">Sentiment Filter</div>
         <div className = "sentiment-btns">

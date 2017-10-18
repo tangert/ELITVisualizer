@@ -31,11 +31,15 @@ class NgramSelector extends Component {
     return className;
   }
 
+  //<div className = "tool-tip-btn">?</div>
+
   render () {
     return(
-      <div className = "ngram-selector-container"
+      <div className = "control-panel-item-container"
         style = {this.props.style} >
-        <div className = "control-panel-title">NGram Selector</div>
+        <div className = "control-panel-title-container">
+          <div className = "control-panel-title">NGram Selector</div>
+        </div>
 
         <div className = "slider-wrapper">
 

@@ -50,8 +50,17 @@ class EntrySection extends Component {
       first = 1;
     }
 
-    second = 1;
-    third = 1;
+    if(state.tokenization === 0) {
+      second = 0;
+    } else if (state.tokenization === 1) {
+      second = 1;
+    }
+
+    if(state.segmentation === 0) {
+      third = 0;
+    } else if (state.segmentation === 1) {
+      third = 1;
+    }
 
     if (state.model === "TWITTER") {
       fourth = 3;
@@ -143,7 +152,6 @@ class EntrySection extends Component {
   }
 
   handleEntryBlur = () => {
-    console.log("blurring");
     this.props.actions.handleEntryFocus(false)
   }
 

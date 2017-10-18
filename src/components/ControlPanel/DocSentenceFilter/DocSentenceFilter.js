@@ -48,14 +48,19 @@ class DocSentenceFilter extends Component {
 
   renderSentenceMarks = (currentDocument) => {
       var max = currentDocument.length;
+      let mid = Math.ceil(max/2);
       console.log("MAX:",max);
 
       let marks = {};
-      for(var i = 0; i < max; i++) {
-        marks[i] = i+1;
-      }
 
-      console.log("MARKS:",marks);
+      // for(var i = 0; i < max; i++) {
+      //   marks[i] = i+1;
+      // }
+
+      marks[0] = 1;
+      marks[mid-1] = mid;
+      marks[max-1] = max;
+
       return marks;
   }
 
@@ -86,6 +91,7 @@ class DocSentenceFilter extends Component {
     let sentenceMax;
     let documentSelector;
     let sentenceFilter;
+    let containerStyle;
 
     let currentDocument = this.props.documents[this.props.selectedDocument];
 
@@ -93,9 +99,12 @@ class DocSentenceFilter extends Component {
 
       sentenceMax = currentDocument.length;
 
+      let DOCUMENT_CHECK = this.props.documents.length > 1;
+      let SENTENCE_CHECK = currentDocument.length > 4;
+
       //eventually add search functionality and more custom styles.
 
-      if(this.props.documents.length > 1) {
+      if(DOCUMENT_CHECK) {
         documentSelector = (
           <div className = "doc-traversal">
             <div className = "control-panel-title">Document selector</div>
@@ -127,12 +136,12 @@ class DocSentenceFilter extends Component {
         )
       }
 
-      if(currentDocument.length > 1) {
+      if(SENTENCE_CHECK) {
         sentenceFilter = (
           <div className = "sentence-filter">
             <div className = "control-panel-title">Sentence selector</div>
               <Slider.Range
-              style = {{fontFamily: "Maven Pro", width: "25vw"}}
+              style = {{fontFamily: "Maven Pro", width: "200px"}}
               min={0}
               max = {currentDocument.length-1}
               marks={this.renderSentenceMarks(currentDocument)}
@@ -142,13 +151,28 @@ class DocSentenceFilter extends Component {
           </div>
         );
       }
+
+      //When both conditions aren't met.
+
+      if(!DOCUMENT_CHECK && !SENTENCE_CHECK) {
+        containerStyle = {
+          display: "none"
+        };
+      } else {
+        containerStyle = this.props.style;
+      }
     }
 
+
+
     return(
-      <div className = "doc-sentence-filter-container"
-        style = {this.props.style} >
+      <div className = "control-panel-item-container"
+        style = {containerStyle}
+        >
+
         {documentSelector}
         {sentenceFilter}
+
       </div>
     )
   }

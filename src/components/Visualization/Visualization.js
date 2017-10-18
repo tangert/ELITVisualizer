@@ -38,6 +38,12 @@ class Visualization extends Component {
 
   renderNgrams = (documents, selectedDocument) => {
 
+    console.log("FROM RENDER NGRAM: ", documents);
+
+    if(!this.props.analyzedSuccess) {
+      return;
+    }
+
     let currentDocument = documents[selectedDocument];
 
     if (currentDocument !== undefined && !this.props.entryIsFocused) {
@@ -227,7 +233,8 @@ function mapStateToProps(state){
 
     documents: state.EntrySection.documents,
     selectedDocument: state.ControlPanel.selectedDocument,
-    visibleSentences: state.ControlPanel.visibleSentences
+    visibleSentences: state.ControlPanel.visibleSentences,
+    analyzedSuccess: state.EntrySection.analyzedSuccess
   };
 }
 

@@ -1,5 +1,4 @@
 import { ANALYZE_TEXT_SUCCESS, ANALYZE_TEXT_FAILURE, EDIT_TEXT, HANDLE_ENTRY_FOCUS } from './../actions/ActionTypes'
-import axios from 'axios'
 
 const initialState = {
   analyzedText: "",
@@ -9,9 +8,18 @@ const initialState = {
   documents: [],
 };
 
-function calculateNewDocumentData(data) {
+function calculateNewDocumentData(phrase) {
+  let docs = [];
 
+  //HERE IS WHERE YOU WILL CALL AXIOS WITH THE GIVEN TEXT AND FLAGS.
 
+  for(var i = 0; i < 10; i++) {
+    // let new_doc = calculateNewPhraseData(phrase);
+    let new_doc = calculateNewPhraseData(phrase).slice(0,i+1);
+    docs.push(new_doc);
+  }
+
+  return docs;
 }
 
 function calculateNewPhraseData(phrase){
@@ -61,13 +69,23 @@ export default function EntrySection(state = initialState, action) {
   switch(action.type){
 
     case ANALYZE_TEXT_SUCCESS:
+
+      let dummy = calculateNewDocumentData(state.currentText);
+      console.log("PAYLOAD: ", action.payload);
+      console.log("test data; ", dummy);
+      console.log("length", JSON.parse(action.payload).length);
+
+      let newData = JSON.parse(action.payload);
+
       return { ...state,
-        documents: action.payload,
+        documents: newData,
+        // documents: dummy,
         analyzedText: state.currentText,
         analyzedSuccess: true,
     }
 
     case ANALYZE_TEXT_FAILURE:
+    console.log("FAILURE!!!");
       return { ...state,
         analyzedSuccess: false
       }

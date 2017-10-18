@@ -17,7 +17,7 @@ import { NEGATIVE,
          POSITIVE } from './../constants.js'
 
 const initialState = {
-  currentNgramPosition: 1,
+  currentNgramPosition: 0,
   sentimentFilters: {
     positive: false,
     neutral: false,

@@ -1,7 +1,7 @@
 import * as types from './ActionTypes'
-import axios from 'axios'
+import rp from 'request-promise'
 
-const API_URL = "http://elit.cloud/demo/";
+const API_URL = "https://elit.cloud/demo/";
 
 /****TEXT ENTRY FUNCTIONS****/
 export function editText(data){
@@ -17,46 +17,29 @@ export function analyzeText(data){
 
   return (dispatch) => {
 
-    //mode': 'no-cors',
+    var options = {
+      method: 'POST',
+      uri: API_URL,
+      form: data,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      resolveWithFullResponse: true
+    };
 
-      var headers = {
-          // 'Accept': 'application/json',
-          // 'Access-Control-Allow-Origin': "*",
-          // "Access-Control-Allow-Methods": "POST",
-          'Content-Type': 'application/json',
-          // "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
-      };
+    return rp(options)
+      .then(function (b) {
 
-    //return axios.post(API_URL, data, headers)
+        let docs = b.body;
+        dispatch(analyzeTextSuccess(docs))
 
-    // return fetch(API_URL, {
-    //     method: 'post',
-    //     body: JSON.stringify(data),
-    //     headers: headers
-    //   })
-    //   .then(function(response) {
-    //     dispatch(analyzeTextSuccess(response.data[0]))
-    //   })
-    //   .catch(error => {
-    //     dispatch(analyzeTextFailure());
-    //   });
-
-      return axios({
-              method: 'POST',
-              url: API_URL,
-              headers: headers,
-              data: data
-            })
-
-      .then( response =>{
-        dispatch(analyzeTextSuccess(response.data[0]))
       })
+      .catch(function (error) {
 
-      .catch(error => {
         console.log("ERROR: ", error);
         dispatch(analyzeTextFailure());
       });
-  }
+    }
 
 }
 
