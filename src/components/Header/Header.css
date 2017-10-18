@@ -21,3 +21,11 @@
   font-size: 1em;
 
 }
+
+.elit-link {
+  transition: 0.15s ease-in;
+}
+
+.elit-link:hover {
+  transform: scale(1.1);
+}
